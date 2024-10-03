@@ -1,8 +1,6 @@
 import { sepolia } from "@reown/appkit/networks";
 import { JsonRpcProvider } from "ethers";
 
-type SupportedNetwork = "Lisk Sepolia" | "Holesky" | "Sepolia";
-
 const liskProvider = new JsonRpcProvider(
   process.env.NEXT_PUBLIC_LISK_SEPOLIA_RPC_URL
 );
@@ -13,7 +11,8 @@ const holeskyProvider = new JsonRpcProvider(
   process.env.NEXT_PUBLIC_HOLESKY_RPC_URL
 );
 
-export const getStaticProvider = (name: SupportedNetwork) => {
+export const getStaticProvider = (name: string | undefined) => {
+  if (!name) return null;
   switch (name) {
     case "Lisk Sepolia":
       return liskProvider;
