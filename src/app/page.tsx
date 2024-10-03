@@ -1,27 +1,31 @@
 "use client";
 
-import Image from "next/image";
+import { Fragment } from "react";
 import "../util/init";
-import { useRunners } from "./hooks/useRunners";
+import CreateProposalModal from "./components/CreateProposal";
+import Proposals from "./components/Proposals";
+import { useGetProposal } from "./hooks/useGetProposal";
 
 export default function Home() {
-  const { signer } = useRunners();
+  const { proposals, loading } = useGetProposal();
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        {signer?.address && (
-          <p className="text-xl font-bold">{signer.address}</p>
+    <Fragment>
+      <div className="flex justify-between items-center px-8 py-4 bg-gray-100 border-b">
+        <h1 className="text-xl font-bold text-gray-800">Proposals</h1>
+        <CreateProposalModal />
+      </div>
+
+      <main className="flex flex-col gap-8 px-8 py-4 min-h-screen">
+        {loading ? (
+          <p className="text-center text-gray-600">Loading...</p>
+        ) : (
+          <Proposals proposals={proposals} />
         )}
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center"></footer>
-    </div>
+
+      <footer className="flex justify-center items-center gap-4 py-6 bg-gray-100">
+        <p className="text-gray-600">© 2024 Proposal Management</p>
+      </footer>
+    </Fragment>
   );
 }
