@@ -84,6 +84,7 @@ export const useCreateProposal = ({
       }
     },
 
-    [address, chainId, BEContract, resetForm, setLoading]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [address, chainId, BEContract]
   );
 };
