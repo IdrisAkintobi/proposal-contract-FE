@@ -1,5 +1,5 @@
+import Proposal from "@/components/Proposal";
 import { IProposer } from "@/util/proposal.interface";
-import Proposal from "./Proposal";
 
 interface ProposalsProps {
   proposals: IProposer[];

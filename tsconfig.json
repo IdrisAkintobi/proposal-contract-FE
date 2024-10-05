@@ -24,10 +24,16 @@
     "baseUrl": ".",
     "paths": {
       "@/components/*": [
-        ".src/app/components/*"
+        "./src/app/components/*"
+      ],
+      "@/hooks/*": [
+        "./src/app/hooks/*"
+      ],
+      "@/context/*": [
+        "./src/app/context/*"
       ],
       "@/*": [
-        "./src/*",
+        "./src/*"
       ],
     }
   },

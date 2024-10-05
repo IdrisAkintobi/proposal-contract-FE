@@ -1,7 +1,7 @@
+import Header from "@/components/Header";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Toaster } from "sonner";
-import Header from "./components/Header";
 import "./globals.css";
 
 const geistSans = localFont({

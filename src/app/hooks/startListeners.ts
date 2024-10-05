@@ -1,7 +1,7 @@
+import { useProposerContext } from "@/context/ProposerContext";
+import { useBEContract } from "@/hooks/useContract";
 import { mapProposalToUIData } from "@/util/util-functions";
 import { useCallback, useEffect } from "react";
-import { useProposerContext } from "../context/ProposerContext";
-import { useBEContract } from "./useContract";
 
 export const useStartListener = () => {
   const BEContract = useBEContract();

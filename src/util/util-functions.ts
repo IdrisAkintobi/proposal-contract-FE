@@ -1,6 +1,6 @@
+import { allowedNetworks } from "@/util/init";
+import { IProposer } from "@/util/proposal.interface";
 import { formatEther } from "ethers";
-import { allowedNetworks } from "./init";
-import { IProposer } from "./proposal.interface";
 
 export const mapProposalToUIData = (proposal: IProposer) => {
   return {

@@ -1,6 +1,6 @@
-import "../util/init";
-import { ProposerProvider } from "./context/ProposerContext";
-import Home from "./Home";
+import Home from "@/app/Home";
+import { ProposerProvider } from "@/context/ProposerContext";
+import "@/util/init";
 
 export default function App() {
   return (

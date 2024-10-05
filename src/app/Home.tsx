@@ -1,12 +1,12 @@
 "use client";
 
+import CreateProposalModal from "@/components/CreateProposal";
+import Proposals from "@/components/Proposals";
+import { useProposerContext } from "@/context/ProposerContext";
+import { useStartListener } from "@/hooks/startListeners";
+import { useGetProposal } from "@/hooks/useGetProposal";
+import "@/util/init";
 import { Fragment } from "react";
-import "../util/init";
-import CreateProposalModal from "./components/CreateProposal";
-import Proposals from "./components/Proposals";
-import { useProposerContext } from "./context/ProposerContext";
-import { useStartListener } from "./hooks/startListeners";
-import { useGetProposal } from "./hooks/useGetProposal";
 
 export default function Home() {
   const { loading } = useGetProposal();

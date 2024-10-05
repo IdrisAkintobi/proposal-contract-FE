@@ -1,3 +1,4 @@
+import { useBEContract } from "@/hooks/useContract";
 import {
   CreateProposalParams,
   useProposalProps,
@@ -6,7 +7,6 @@ import { useAppKitAccount } from "@reown/appkit/react";
 import { parseEther } from "ethers";
 import { useCallback } from "react";
 import { toast } from "sonner";
-import { useBEContract } from "./useContract";
 
 export const useCreateProposal = ({
   setLoading,

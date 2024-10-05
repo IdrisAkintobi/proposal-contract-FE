@@ -1,11 +1,11 @@
 import ABI from "@/ABI/proposal.json";
+import { useProposerContext } from "@/context/ProposerContext";
+import { useBEContract, useCustomContract } from "@/hooks/useContract";
 import { IProposer } from "@/util/proposal.interface";
 import { mapProposalToUIData } from "@/util/util-functions";
 import { BytesLike, Interface } from "ethers";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { useProposerContext } from "../context/ProposerContext";
-import { useBEContract, useCustomContract } from "./useContract";
 
 const multicallAbi = [
   "function tryAggregate(bool requireSuccess, (address target, bytes callData)[] calls) returns ((bool success, bytes returnData)[] returnData)",
