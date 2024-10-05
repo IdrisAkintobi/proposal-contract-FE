@@ -1,3 +1,6 @@
+"use client";
+
+import { IProposer } from "@/util/proposal.interface";
 import {
   createContext,
   Dispatch,
@@ -7,7 +10,6 @@ import {
   useContext,
   useState,
 } from "react";
-import { IProposer } from "../../util/proposal.interface";
 
 interface ProposerContextInterface {
   proposals: IProposer[];
