@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useCreateProposal } from "@/hooks/useCreateProposal";
+import { useProposalActions } from "@/hooks/useProposalActions";
 import { useState } from "react";
 
 const DEFAULT_MIN_VOTE = Number(process.env.NEXT_PUBLIC_DEFAULT_MIN_VOTE) || 2;
@@ -28,7 +28,7 @@ const CreateProposalModal = () => {
 
   const resetForm = () => setState({ ...defaultState });
 
-  const handleCreateProposal = useCreateProposal({ setLoading, resetForm });
+  const { createProposal } = useProposalActions({ setLoading, resetForm });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState((prevState) => ({ ...prevState, [e.target.id]: e.target.value }));
@@ -120,7 +120,7 @@ const CreateProposalModal = () => {
             className="bg-blue-500"
             variant="default"
             disabled={loading}
-            onClick={() => handleCreateProposal({ ...state })}
+            onClick={() => createProposal({ ...state })}
           >
             {loading ? "Creating..." : "Create"}
           </Button>

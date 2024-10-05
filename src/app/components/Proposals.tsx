@@ -15,6 +15,7 @@ const Proposals: React.FC<ProposalsProps> = ({ proposals }) => {
       ) : (
         proposals.map(
           ({
+            proposalId,
             votingDeadline,
             minRequiredVote,
             amount,
@@ -24,6 +25,7 @@ const Proposals: React.FC<ProposalsProps> = ({ proposals }) => {
           }) => (
             <Proposal
               key={`${votingDeadline}${minRequiredVote}`}
+              proposalId={proposalId}
               amount={amount}
               votingDeadline={votingDeadline}
               description={description}

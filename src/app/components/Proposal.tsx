@@ -6,9 +6,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useProposalActions } from "@/hooks/useProposalActions";
 import { IProposer } from "@/util/proposal.interface";
+import { useState } from "react";
 
 const Proposal: React.FC<IProposer> = ({
+  proposalId,
   description,
   amount,
   minRequiredVote,
@@ -16,6 +19,9 @@ const Proposal: React.FC<IProposer> = ({
   votingDeadline,
   executed,
 }) => {
+  const [loading, setLoading] = useState(false);
+  const { voteProposal } = useProposalActions({ setLoading });
+
   return (
     <Card className="bg-white border border-gray-200 shadow-sm rounded-lg overflow-hidden">
       <CardHeader className="p-4 bg-gray-100 border-b border-gray-200">
@@ -50,7 +56,11 @@ const Proposal: React.FC<IProposer> = ({
         </div>
       </CardContent>
       <CardFooter className="p-4">
-        <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md">
+        <Button
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md"
+          disabled={loading}
+          onClick={() => voteProposal(Number(proposalId))}
+        >
           Vote
         </Button>
       </CardFooter>

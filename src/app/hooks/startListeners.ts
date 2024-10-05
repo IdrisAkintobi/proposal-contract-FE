@@ -34,10 +34,13 @@ export const useStartListener = () => {
   const votedHandler = useCallback((proposalId: bigint) => {
     setProposals!((prev) => {
       const newProposals = [...prev];
-      const proposal = newProposals.find(
-        (i) => i.proposalId === Number(proposalId)
-      );
-      if (proposal?.voteCount) proposal.voteCount += 1;
+      for (let i = 0; i < newProposals.length; i++) {
+        const curr = newProposals[i];
+        if (curr.proposalId === Number(proposalId)) {
+          newProposals[i] = { ...curr, voteCount: curr.voteCount + 1 };
+          break;
+        }
+      }
       return newProposals;
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,12 +49,12 @@ export const useStartListener = () => {
   useEffect(() => {
     if (!BEContract) return;
 
-    BEContract.on("ProposalCreated", proposalCreatedHandler);
-    BEContract.on("Voted", votedHandler);
+    BEContract.addListener("Voted", votedHandler);
+    BEContract.addListener("ProposalCreated", proposalCreatedHandler);
 
     return () => {
-      BEContract.off("ProposalCreated", proposalCreatedHandler);
-      BEContract.off("Voted", votedHandler);
+      BEContract.removeListener("Voted", votedHandler);
+      BEContract.removeListener("ProposalCreated", proposalCreatedHandler);
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

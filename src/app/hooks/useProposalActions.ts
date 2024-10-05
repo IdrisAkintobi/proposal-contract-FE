@@ -3,19 +3,20 @@ import {
   CreateProposalParams,
   useProposalProps,
 } from "@/util/proposal.interface";
+import { decodeError } from "@/util/util-functions";
 import { useAppKitAccount } from "@reown/appkit/react";
 import { parseEther } from "ethers";
 import { useCallback } from "react";
 import { toast } from "sonner";
 
-export const useCreateProposal = ({
+export const useProposalActions = ({
   setLoading,
   resetForm,
 }: useProposalProps) => {
   const BEContract = useBEContract(true);
   const { address } = useAppKitAccount();
 
-  return useCallback(
+  const createProposal = useCallback(
     async ({
       description,
       recipient,
@@ -50,7 +51,7 @@ export const useCreateProposal = ({
         );
 
         // Send the transaction
-        const tx = await BEContract.createProposal(
+        await BEContract.createProposal(
           description,
           recipient,
           parseEther(amount),
@@ -62,10 +63,8 @@ export const useCreateProposal = ({
         );
 
         toast.success("Proposal Creation successful");
-        tx.wait();
-      } catch (error: unknown) {
-        console.error("Error while creating proposal: ", error);
-        toast.error("Proposal Creation failed");
+      } catch (error) {
+        toast.error(await decodeError(error));
       } finally {
         if (resetForm) resetForm();
         setLoading(false);
@@ -75,4 +74,50 @@ export const useCreateProposal = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [address, BEContract]
   );
+
+  const voteProposal = useCallback(
+    async (id: number) => {
+      if (!id) {
+        toast.error("Id required!");
+        return;
+      }
+      if (!BEContract) {
+        toast.error("Something went wrong!");
+        return;
+      }
+      setLoading(true);
+      try {
+        await BEContract.vote(id);
+        toast.success("Voting successful");
+      } catch (error) {
+        toast.error(await decodeError(error));
+      } finally {
+        setLoading(false);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [BEContract]
+  );
+
+  const executeProposal = useCallback(
+    async (id: string) => {
+      if (!id) {
+        toast.error("Id required!");
+        return;
+      }
+      if (!BEContract) {
+        toast.error("Something went wrong!");
+        return;
+      }
+      try {
+        await BEContract.executeProposal(id);
+        toast.success("Proposal executed");
+      } catch (error) {
+        toast.error(await decodeError(error));
+      }
+    },
+    [BEContract]
+  );
+
+  return { createProposal, voteProposal, executeProposal };
 };

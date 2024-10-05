@@ -1,5 +1,5 @@
 export interface IProposer {
-  proposalId?: string | number | bigint;
+  proposalId: number | bigint;
   description: string;
   recipient?: string;
   amount: string | number;
