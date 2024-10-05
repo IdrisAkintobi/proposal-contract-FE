@@ -2,11 +2,10 @@ import {
   CreateProposalParams,
   useProposalProps,
 } from "@/util/proposal.interface";
-import { useAppKitAccount, useAppKitNetwork } from "@reown/appkit/react";
+import { useAppKitAccount } from "@reown/appkit/react";
 import { parseEther } from "ethers";
 import { useCallback } from "react";
 import { toast } from "sonner";
-import { liskSepolia } from "../../util/init";
 import { useBEContract } from "./useContract";
 
 export const useCreateProposal = ({
@@ -15,7 +14,6 @@ export const useCreateProposal = ({
 }: useProposalProps) => {
   const BEContract = useBEContract(true);
   const { address } = useAppKitAccount();
-  const { chainId } = useAppKitNetwork();
 
   return useCallback(
     async ({
@@ -29,17 +27,14 @@ export const useCreateProposal = ({
         toast.error("Missing field(s)");
         return;
       }
+
       if (!address) {
         toast.error("Connect your wallet!");
         return;
       }
-      if (Number(chainId) !== liskSepolia.chainId) {
-        toast.error("You are not connected to the right network");
-        return;
-      }
 
       if (!BEContract) {
-        toast.error("Cannot get BEContract!");
+        toast.error("Something went wrong!");
         return;
       }
 
@@ -66,18 +61,11 @@ export const useCreateProposal = ({
           }
         );
 
-        // Wait for the transaction receipt
-        const receipt = await tx.wait();
-
-        if (receipt.status === 1) {
-          toast.success("Proposal Creation successful");
-          return;
-        }
-
-        toast.error("Proposal Creation failed");
+        toast.success("Proposal Creation successful");
+        tx.wait();
       } catch (error: unknown) {
         console.error("Error while creating proposal: ", error);
-        toast.error("Proposal Creation errored");
+        toast.error("Proposal Creation failed");
       } finally {
         if (resetForm) resetForm();
         setLoading(false);
@@ -85,6 +73,6 @@ export const useCreateProposal = ({
     },
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [address, chainId, BEContract]
+    [address, BEContract]
   );
 };
