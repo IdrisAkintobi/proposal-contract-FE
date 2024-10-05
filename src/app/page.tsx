@@ -1,5 +1,5 @@
 import Home from "@/app/Home";
-import Header from "@/components/Header";
+import Header from "@/components/HeaderComponent";
 import { ProposerProvider } from "@/context/ProposerContext";
 import "@/util/init";
 import { Toaster } from "sonner";
