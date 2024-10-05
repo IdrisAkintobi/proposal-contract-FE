@@ -106,9 +106,19 @@ const CreateProposalModal = () => {
             />
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className="w-full">
+          <DialogTrigger asChild>
+            <Button
+              variant="destructive"
+              disabled={loading}
+              className="bg-orange-500 float-left"
+            >
+              Close
+            </Button>
+          </DialogTrigger>
           <Button
-            className="w-full"
+            className="bg-blue-500"
+            variant="default"
             disabled={loading}
             onClick={() => handleCreateProposal({ ...state })}
           >

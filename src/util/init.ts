@@ -7,7 +7,7 @@ import { createAppKit } from "@reown/appkit/react";
 // 1. Get projectId at https://cloud.reown.com
 const projectId = process.env.NEXT_PUBLIC_PROJECT_ID as string;
 
-export const liskSepolia = {
+const liskSepolia = {
   id: "eip155:4202",
   chainId: 4202,
   chainNamespace: "eip155",
@@ -17,7 +17,7 @@ export const liskSepolia = {
   rpcUrl: process.env.NEXT_PUBLIC_LISK_SEPOLIA_RPC_URL!,
 } as const;
 
-export const holesky = {
+const holesky = {
   id: "eip155:17000",
   chainId: 17000,
   chainNamespace: "eip155",
@@ -26,6 +26,8 @@ export const holesky = {
   explorerUrl: process.env.NEXT_PUBLIC_HOLESKY_EXPLORER_URL!,
   rpcUrl: process.env.NEXT_PUBLIC_HOLESKY_RPC_URL!,
 } as const;
+
+export const allowedNetworks = [liskSepolia, sepolia, holesky];
 
 export const metadata = {
   name: "Reown Connect",
@@ -37,7 +39,7 @@ export const metadata = {
 // 3. Create the AppKit instance
 createAppKit({
   adapters: [new EthersAdapter()],
-  networks: [liskSepolia, sepolia, holesky],
+  networks: allowedNetworks,
   projectId,
   metadata,
   allowUnsupportedChain: true,

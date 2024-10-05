@@ -5,11 +5,13 @@ import "../util/init";
 import CreateProposalModal from "./components/CreateProposal";
 import Proposals from "./components/Proposals";
 import { useProposerContext } from "./context/ProposerContext";
+import { useStartListener } from "./hooks/startListeners";
 import { useGetProposal } from "./hooks/useGetProposal";
 
 export default function Home() {
   const { loading } = useGetProposal();
   const { proposals } = useProposerContext();
+  useStartListener();
   return (
     <Fragment>
       <div className="flex justify-between items-center px-8 py-4 bg-gray-100 border-b">
