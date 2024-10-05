@@ -1,3 +1,5 @@
+"use client";
+
 import "@/util/init";
 import { Fragment } from "react";
 import CreateProposalModal from "./components/CreateProposal";
