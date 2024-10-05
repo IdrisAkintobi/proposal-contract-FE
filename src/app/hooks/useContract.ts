@@ -1,14 +1,14 @@
-import ABI from "@/ABI/proposal.json";
-import { useRunners } from "@/hooks/useRunners";
-import { getStaticProvider } from "@/util/static.providers";
-import {
-  allowedNetworkNames,
-  checkIsAllowedNetwork,
-} from "@/util/util-functions";
 import { useAppKitNetwork } from "@reown/appkit/react";
 import { Contract, InterfaceAbi } from "ethers";
 import { useMemo } from "react";
 import { toast } from "sonner";
+import ABI from "../../ABI/proposal.json";
+import { getStaticProvider } from "../../util/static.providers";
+import {
+  allowedNetworkNames,
+  checkIsAllowedNetwork,
+} from "../../util/util-functions";
+import { useRunners } from "../hooks/useRunners";
 
 interface useCustomContractParams {
   address: string;

@@ -1,12 +1,12 @@
-import { Button } from "@/components/ui/button";
+import { IProposer } from "../../util/proposal.interface";
+import { Button } from "../components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { IProposer } from "@/util/proposal.interface";
+} from "./ui/card";
 
 const Proposal: React.FC<IProposer> = ({
   description,
