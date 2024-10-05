@@ -1,7 +1,12 @@
 import { getStaticProvider } from "@/util/static.providers";
+import {
+  allowedNetworkNames,
+  checkIsAllowedNetwork,
+} from "@/util/util-functions";
 import { useAppKitNetwork } from "@reown/appkit/react";
 import { Contract, InterfaceAbi } from "ethers";
 import { useMemo } from "react";
+import { toast } from "sonner";
 import ABI from "../../ABI/proposal.json";
 import { useRunners } from "./useRunners";
 
@@ -17,6 +22,15 @@ export const useBEContract = (withSigner = false): Contract | null => {
     .NEXT_PUBLIC_BE_CONTRACT_ADDRESS as string;
 
   return useMemo(() => {
+    if (caipNetwork?.name) {
+      if (!checkIsAllowedNetwork(caipNetwork.name)) {
+        toast.error(
+          `Please connect to any of ${allowedNetworkNames.toString()} network`
+        );
+        return null;
+      }
+    }
+
     if (withSigner) {
       if (!signer) return null; // Avoid rerender if signer is not available
       return new Contract(BEContractAddress, ABI, signer);
@@ -38,6 +52,15 @@ export const useCustomContract = (
 
   return useMemo(() => {
     if (!abi || !address) return null;
+
+    if (caipNetwork?.name) {
+      if (!checkIsAllowedNetwork(caipNetwork.name)) {
+        toast.error(
+          `Please connect to any of ${allowedNetworkNames.toString()} network`
+        );
+        return null;
+      }
+    }
 
     const staticProvider = getStaticProvider(caipNetwork?.name);
     if (!staticProvider) return null;

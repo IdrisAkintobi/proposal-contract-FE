@@ -1,8 +1,9 @@
 export interface IProposer {
+  proposalId?: string | number | bigint;
   description: string;
   recipient?: string;
-  amount: string;
-  minRequiredVote: number;
+  amount: string | number;
+  minRequiredVote?: string | number;
   voteCount: number;
   votingDeadline: number | string;
   minVotesToPass?: number;

@@ -1,10 +1,9 @@
 import ABI from "@/ABI/proposal.json";
 import { IProposer } from "@/util/proposal.interface";
-import { useAppKitNetwork } from "@reown/appkit/react";
-import { BytesLike, Interface, formatEther } from "ethers";
+import { mapProposalToUIData } from "@/util/util-functions";
+import { BytesLike, Interface } from "ethers";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { liskSepolia } from "../../util/init";
 import { useProposerContext } from "../context/ProposerContext";
 import { useBEContract, useCustomContract } from "./useContract";
 
@@ -19,16 +18,12 @@ export const useGetProposal = () => {
     address: process.env.NEXT_PUBLIC_MULTICALL_V2_ADDRESS as string,
     abi: multicallAbi,
   });
-  const { chainId } = useAppKitNetwork();
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const fetchProposals = useCallback(async () => {
+    setLoading(true);
     const BEContractInterface = new Interface(ABI);
-    if (Number(chainId) !== liskSepolia.chainId) {
-      toast.error(`Please connect to the ${liskSepolia.name} network`);
-      return;
-    }
 
     if (!multiCallContract || !BEContract) return;
 
@@ -36,7 +31,7 @@ export const useGetProposal = () => {
       const proposalCount = Number(await BEContract.proposalCount());
 
       const proposalsIds = Array.from(
-        { length: proposalCount },
+        { length: proposalCount - 1 },
         (_, i) => i + 1
       );
 
@@ -56,16 +51,7 @@ export const useGetProposal = () => {
           BEContractInterface.decodeFunctionResult("proposals", res.returnData)
       );
 
-      const proposals = decodedResults.map((proposal) => ({
-        description: proposal.description,
-        amount: formatEther(proposal.amount),
-        minRequiredVote: Number(proposal.minVotesToPass),
-        voteCount: Number(proposal.voteCount),
-        votingDeadline: new Date(
-          Number(proposal.votingDeadline) * 1000
-        ).toLocaleString("en-CA"),
-        executed: proposal.executed,
-      }));
+      const proposals = decodedResults.map(mapProposalToUIData);
 
       setProposals!(proposals);
     } catch (error: unknown) {
