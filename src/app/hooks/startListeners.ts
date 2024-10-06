@@ -46,15 +46,32 @@ export const useStartListener = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const proposalExecutedHandler = useCallback((proposalId: bigint) => {
+    setProposals!((prev) => {
+      const newProposals = [...prev];
+      for (let i = 0; i < newProposals.length; i++) {
+        const curr = newProposals[i];
+        if (curr.proposalId === Number(proposalId)) {
+          newProposals[i] = { ...curr, executed: true };
+          break;
+        }
+      }
+      return newProposals;
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     if (!BEContract) return;
 
-    BEContract.addListener("Voted", votedHandler);
     BEContract.addListener("ProposalCreated", proposalCreatedHandler);
+    BEContract.addListener("Voted", votedHandler);
+    BEContract.addListener("ProposalExecuted", proposalExecutedHandler);
 
     return () => {
-      BEContract.removeListener("Voted", votedHandler);
       BEContract.removeListener("ProposalCreated", proposalCreatedHandler);
+      BEContract.removeListener("Voted", votedHandler);
+      BEContract.removeListener("Voted", proposalExecutedHandler);
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

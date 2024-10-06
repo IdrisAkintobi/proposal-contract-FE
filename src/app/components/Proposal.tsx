@@ -20,7 +20,7 @@ const Proposal: React.FC<IProposer> = ({
   executed,
 }) => {
   const [loading, setLoading] = useState(false);
-  const { voteProposal } = useProposalActions({ setLoading });
+  const { voteProposal, executeProposal } = useProposalActions({ setLoading });
 
   return (
     <Card className="bg-white border border-gray-200 shadow-sm rounded-lg overflow-hidden">
@@ -55,9 +55,16 @@ const Proposal: React.FC<IProposer> = ({
           <span className="font-bold text-gray-800">{String(executed)}</span>
         </div>
       </CardContent>
-      <CardFooter className="p-4">
+      <CardFooter className="p-4 flex justify-between w-[100%]">
         <Button
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md"
+          className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 min-w-[20%] rounded-md"
+          disabled={loading}
+          onClick={() => executeProposal(Number(proposalId))}
+        >
+          Execute
+        </Button>
+        <Button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 min-w-[20%] rounded-md"
           disabled={loading}
           onClick={() => voteProposal(Number(proposalId))}
         >

@@ -100,7 +100,7 @@ export const useProposalActions = ({
   );
 
   const executeProposal = useCallback(
-    async (id: string) => {
+    async (id: number) => {
       if (!id) {
         toast.error("Id required!");
         return;
