@@ -16,15 +16,18 @@ export const useStartListener = () => {
       votingDeadline: number,
       minVotesToPass: number
     ) => {
-      const proposal = mapProposalToUIData({
-        proposalId,
-        description,
-        amount,
-        votingDeadline,
-        minVotesToPass,
-        voteCount: 0,
-        executed: false,
-      });
+      const proposal = mapProposalToUIData(
+        {
+          proposalId,
+          description,
+          amount,
+          votingDeadline,
+          minVotesToPass,
+          voteCount: 0,
+          executed: false,
+        },
+        Number(proposalId)
+      );
       setProposals!((prev) => [...prev, proposal]);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

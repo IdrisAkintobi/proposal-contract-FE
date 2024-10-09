@@ -22,6 +22,8 @@ const Proposal: React.FC<IProposer> = ({
   const [loading, setLoading] = useState(false);
   const { voteProposal, executeProposal } = useProposalActions({ setLoading });
 
+  const canVote = new Date(votingDeadline).getTime() < Date.now() || !executed;
+
   return (
     <Card className="bg-white border border-gray-200 shadow-sm rounded-lg overflow-hidden">
       <CardHeader className="p-4 bg-gray-100 border-b border-gray-200">
@@ -58,14 +60,14 @@ const Proposal: React.FC<IProposer> = ({
       <CardFooter className="p-4 flex justify-between w-[100%]">
         <Button
           className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 min-w-[20%] rounded-md"
-          disabled={loading}
+          disabled={loading || executed}
           onClick={() => executeProposal(Number(proposalId))}
         >
           Execute
         </Button>
         <Button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 min-w-[20%] rounded-md"
-          disabled={loading}
+          disabled={loading || !canVote}
           onClick={() => voteProposal(Number(proposalId))}
         >
           Vote

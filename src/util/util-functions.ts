@@ -3,9 +3,9 @@ import { IProposer } from "@/util/proposal.interface";
 import { formatEther } from "ethers";
 import { ErrorDecoder } from "ethers-decode-error";
 
-export const mapProposalToUIData = (proposal: IProposer, idx?: number) => {
+export const mapProposalToUIData = (proposal: IProposer, idx: number) => {
   return {
-    proposalId: idx ? idx + 1 : Number(proposal.proposalId),
+    proposalId: proposal.proposalId ? Number(proposal.proposalId) : idx + 1,
     description: proposal.description,
     amount: formatEther(proposal.amount),
     minRequiredVote: proposal.minVotesToPass?.toString(),
